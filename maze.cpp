@@ -85,7 +85,7 @@ void Maze::makeBoard()  {
 
 void Maze::genMaze()    {
     numCells = pow(sideDimension, 2);
-    uint8_t numWalls = (numCells * percentFreeCells) / 100;
+    uint8_t numWalls = (numCells * (100 - percentFreeCells)) / 100;
     uint8_t randX, randY;
     MazeCell* cell;
     bool containsX = false;
