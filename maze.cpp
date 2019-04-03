@@ -65,8 +65,9 @@ MazeCell* Maze::getLoc(uint16_t x, uint16_t y)    {
 void Maze::makeBoard()  {
     uint16_t x = 1;
     uint16_t y = 1;
+    numCells = pow(sideDimension, 2);
     
-    for (int i = 0; i < pow(sideDimension, 2); i++)   {
+    for (int i = 0; i < numCells; i++)   {
         addCell(x, y, '\0');
         if (x < sideDimension) {
             x++;
@@ -82,8 +83,7 @@ void Maze::makeBoard()  {
 }
 
 void Maze::genMaze()    {
-    numCells = pow(sideDimension, 2);
-    uint16_t numWalls = (numCells * (100 - percentFreeCells)) / 100;
+    uint16_t numWalls = (numCells * percentFreeCells) / 100;
     uint16_t randX, randY;
     MazeCell* cell;
     bool containsX = false;
@@ -110,8 +110,9 @@ void Maze::genMaze()    {
 
 void Maze::printBoard() {
     uint16_t x = 1, y = 1;
+    uint16_t wallsPerRow = 0;
     MazeCell *cursor;
-
+    
     for (int i = 0; i < pow(sideDimension, 2); i++)   {
         cursor = getLoc(x, y);
         
@@ -121,11 +122,15 @@ void Maze::printBoard() {
         if (x < sideDimension) {
             cout << cursor->val;
             x++;
+            if (cursor->val == '*') {
+                wallsPerRow++;
+            }
         }
         else{
             x = 1;
             y++;
-            cout << "| " << endl;
+            cout << "| " << wallsPerRow << endl;
+            wallsPerRow = 0;
             if (y > sideDimension) {
                 break;
             }
