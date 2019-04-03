@@ -4,22 +4,22 @@
 #include <iostream>
 class Maze {
     private:
-        uint8_t sideDimension;
-        uint8_t percentFreeCells;
-        uint8_t numCells;
+        uint16_t sideDimension;
+        uint16_t percentFreeCells;
+        uint16_t numCells;
         MazeCell *head, *tail;
     public:
         Maze();
-        Maze(uint8_t sideDimension, uint8_t percentFreeCells);
+        Maze(uint16_t sideDimension, uint16_t percentFreeCells);
 
-        void addCell(uint8_t xLoc, uint8_t yLoc, char value);
+        void addCell(uint16_t xLoc, uint16_t yLoc, char value);
         MazeCell* changeLoc(MazeCell* cur);
-        MazeCell* getLoc(uint8_t x, uint8_t y);
+        MazeCell* getLoc(uint16_t x, uint16_t y);
         void makeBoard();
         void genMaze();
         void printBoard();
-        void setDaedalusCurrentLocation(uint8_t x, uint8_t y);
-        void setGateLocation(uint8_t x, uint8_t y);
+        void setDaedalusCurrentLocation(uint16_t x, uint16_t y);
+        void setGateLocation(uint16_t x, uint16_t y);
 };
 
 #endif

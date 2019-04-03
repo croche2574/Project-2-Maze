@@ -3,7 +3,7 @@
 #include <cstdlib>
 using namespace std;
 
-void Maze::addCell(uint8_t xLoc, uint8_t yLoc, char v)    {
+void Maze::addCell(uint16_t xLoc, uint16_t yLoc, char v)    {
     MazeCell *temp = new MazeCell;
     MazeCell *cur = head;
     temp->val = v;
@@ -51,7 +51,7 @@ void Maze::addCell(uint8_t xLoc, uint8_t yLoc, char v)    {
     }
 }
 
-MazeCell* Maze::getLoc(uint8_t x, uint8_t y)    {
+MazeCell* Maze::getLoc(uint16_t x, uint16_t y)    {
     MazeCell *cur = head;
 
     for (int i = 0; i < y; i++) {
@@ -65,8 +65,8 @@ MazeCell* Maze::getLoc(uint8_t x, uint8_t y)    {
 }
 
 void Maze::makeBoard()  {
-    uint8_t x = 1;
-    uint8_t y = 1;
+    uint16_t x = 1;
+    uint16_t y = 1;
     for (int i = 0; i < pow(sideDimension, 2); i++)   {
         addCell(x, y, '\0');
         if (x < sideDimension) {
@@ -85,8 +85,11 @@ void Maze::makeBoard()  {
 
 void Maze::genMaze()    {
     numCells = pow(sideDimension, 2);
-    uint8_t numWalls = (numCells * (100 - percentFreeCells)) / 100;
-    uint8_t randX, randY;
+    cout << "side: " << unsigned(sideDimension) << endl;
+    cout << "NumCells: " << unsigned(numCells) << endl;
+    uint16_t numWalls = (numCells * (100 - percentFreeCells)) / 100;
+    cout << "NumWalls: " << unsigned(numWalls);
+    uint16_t randX, randY;
     MazeCell* cell;
     bool containsX = false;
 
@@ -105,22 +108,38 @@ void Maze::genMaze()    {
 }
 
 void Maze::printBoard() {
-    printf("");
+    MazeCell *upPoint, *rightPoint = head; 
+    uint16_t rowNum = 1;
+  
+    // loop until the down pointer is not NULL 
+    while (upPoint) { 
+        rightPoint = upPoint; 
+        cout << rowNum << " |";
+  
+        // loop until the right pointer is not NULL 
+        while (rightPoint) { 
+            cout << rightPoint->val; 
+            rightPoint = rightPoint->right; 
+        } 
+        cout << "|" << endl; 
+        upPoint = upPoint->up; 
+        rowNum++;
+    } 
 }
 
-void Maze::setDaedalusCurrentLocation(uint8_t x, uint8_t y) {
+void Maze::setDaedalusCurrentLocation(uint16_t x, uint16_t y) {
     MazeCell *cur = getLoc(x, y);
     cur->val = 'D';
 }
 
-void Maze::setGateLocation(uint8_t x, uint8_t y)    {
+void Maze::setGateLocation(uint16_t x, uint16_t y)    {
     MazeCell *cur = getLoc(x, y);
     cur->val = '#';
 }
 
 Maze::Maze()    {}
 
-Maze::Maze(uint8_t side, uint8_t percentFree)   {
+Maze::Maze(uint16_t side, uint16_t percentFree)   {
     sideDimension = side;
     percentFreeCells =  percentFree;
     head = NULL;
