@@ -6,6 +6,7 @@ class Maze {
     private:
         uint8_t sideDimension;
         uint8_t percentFreeCells;
+        uint8_t numCells;
         MazeCell *head, *tail;
     public:
         Maze();

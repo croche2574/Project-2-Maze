@@ -1,5 +1,6 @@
 #include "maze.h"
 #include <cmath>
+#include <cstdlib>
 using namespace std;
 
 void Maze::addCell(uint8_t xLoc, uint8_t yLoc, char v)    {
@@ -83,13 +84,23 @@ void Maze::makeBoard()  {
 }
 
 void Maze::genMaze()    {
-    uint8_t numWalls = (pow(sideDimension, 2) * percentFreeCells) / 100;
+    numCells = pow(sideDimension, 2);
+    uint8_t numWalls = (numCells * percentFreeCells) / 100;
     uint8_t randX, randY;
+    MazeCell* cell;
     bool containsX = false;
+
     for (int i = 0; i < numWalls; i++)  {
         do {
-
-        } while(containsX);        
+            randX = rand() % numCells + 1;
+            randY = rand() % numCells + 1;
+            cell = getLoc(randX, randY);
+            if (cell->val != '*')   {
+                cell->val = '*';
+                containsX = true;
+            }
+        } 
+        while(containsX);
     }
 }
 
