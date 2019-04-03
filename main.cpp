@@ -14,9 +14,7 @@ int main()  {
     Maze mazeBoard = Maze(sideDim, percentFree);
     
     mazeBoard.makeBoard();
-
     mazeBoard.genMaze();
-    printf("maze made");
     mazeBoard.printBoard();
     
 }

@@ -50,14 +50,15 @@ void Maze::addCell(uint16_t xLoc, uint16_t yLoc, char v)    {
 
 MazeCell* Maze::getLoc(uint16_t x, uint16_t y)    {
     MazeCell *cur = head;
-
-    for (int i = 0; i < y; i++) {
+    
+    for (int i = 1; i < y; i++) {
         cur = cur->up;
+        
     }
-
-    for (int i = 0; i < x; i++) {
+    for (int i = 1; i < x; i++) {
         cur = cur->right;
     }
+
     return cur;
 }
 
@@ -67,7 +68,6 @@ void Maze::makeBoard()  {
     
     for (int i = 0; i < pow(sideDimension, 2); i++)   {
         addCell(x, y, '\0');
-        cout << "X: " << x << "  Y: " << y << endl;
         if (x < sideDimension) {
             x++;
         }
@@ -87,39 +87,50 @@ void Maze::genMaze()    {
     uint16_t randX, randY;
     MazeCell* cell;
     bool containsX = false;
+   
 
     for (int i = 0; i < numWalls; i++)  {
+        
         do {
-            randX = rand() % numCells + 1;
-            randY = rand() % numCells + 1;
+            
+            randX = rand() % sideDimension + 1;
+            randY = rand() % sideDimension + 1;
+            //cout << "randX: " << randX << endl;
+            //cout << "randY: " << randY << endl;
             cell = getLoc(randX, randY);
+
             if (cell->val != '*')   {
                 cell->val = '*';
                 containsX = true;
             }
         } 
-        while(containsX);
+        while(!containsX);
     }
 }
 
 void Maze::printBoard() {
-    MazeCell *upPoint, *rightPoint = head; 
-    uint16_t rowNum = 1;
-  
-    // loop until the down pointer is not NULL 
-    while (upPoint) { 
-        rightPoint = upPoint; 
-        cout << rowNum << " |";
-  
-        // loop until the right pointer is not NULL 
-        while (rightPoint) { 
-            cout << rightPoint->val; 
-            rightPoint = rightPoint->right; 
-        } 
-        cout << "|" << endl; 
-        upPoint = upPoint->up; 
-        rowNum++;
-    } 
+    uint16_t x = 1, y = 1;
+    MazeCell *cursor;
+
+    for (int i = 0; i < pow(sideDimension, 2); i++)   {
+        cursor = getLoc(x, y);
+        
+        if (x == 1) {
+            cout << y << " |";
+        }
+        if (x < sideDimension) {
+            cout << cursor->val;
+            x++;
+        }
+        else{
+            x = 1;
+            y++;
+            cout << "| " << endl;
+            if (y > sideDimension) {
+                break;
+            }
+        }
+    }
 }
 
 void Maze::setDaedalusCurrentLocation(uint16_t x, uint16_t y) {
