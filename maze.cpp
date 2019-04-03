@@ -7,6 +7,8 @@ void Maze::addCell(uint16_t xLoc, uint16_t yLoc, char v)    {
     MazeCell *temp = new MazeCell;
     MazeCell *cur = head;
     temp->val = v;
+    temp->x = xLoc;
+    temp->y = yLoc;
     temp->up = NULL;
     temp->down = NULL;
     temp->left = NULL;
@@ -21,11 +23,11 @@ void Maze::addCell(uint16_t xLoc, uint16_t yLoc, char v)    {
     }
     else //add cell
     {
+        
         if (tail->x == sideDimension)   {
             while (cur->up != NULL)    {
                 cur = cur->up;
             }
-
             cur->up = temp;
             temp->down = cur;
             tail = temp;
@@ -35,19 +37,14 @@ void Maze::addCell(uint16_t xLoc, uint16_t yLoc, char v)    {
         {
             temp->left = tail;
             tail->right =  temp;
-
-            if (tail->y !=  1)  {
-                
-                temp->down = getLoc(temp->x, (temp->y - 1));
-                getLoc(temp->x, (temp->y - 1))->up = temp;
+            if (tail->y !=  1)  {                
+                cur = getLoc(temp->x, (temp->y - 1));
+                temp->down = cur;
+                cur = temp;                
             }
             tail = temp;
             temp = NULL;
-        
-
         }
-        
-
     }
 }
 
@@ -67,8 +64,10 @@ MazeCell* Maze::getLoc(uint16_t x, uint16_t y)    {
 void Maze::makeBoard()  {
     uint16_t x = 1;
     uint16_t y = 1;
+    
     for (int i = 0; i < pow(sideDimension, 2); i++)   {
         addCell(x, y, '\0');
+        cout << "X: " << x << "  Y: " << y << endl;
         if (x < sideDimension) {
             x++;
         }
@@ -79,16 +78,12 @@ void Maze::makeBoard()  {
                 break;
             }
         }
-        
     }
 }
 
 void Maze::genMaze()    {
     numCells = pow(sideDimension, 2);
-    cout << "side: " << unsigned(sideDimension) << endl;
-    cout << "NumCells: " << unsigned(numCells) << endl;
     uint16_t numWalls = (numCells * (100 - percentFreeCells)) / 100;
-    cout << "NumWalls: " << unsigned(numWalls);
     uint16_t randX, randY;
     MazeCell* cell;
     bool containsX = false;
