@@ -25,7 +25,7 @@ int main()  {
     printf("Enter the Exit y-coord: ");
     cin >>  y;
     mazeBoard.setGateLocation(x, y);
-    
+
     mazeBoard.genMaze();
     mazeBoard.printBoard();
     

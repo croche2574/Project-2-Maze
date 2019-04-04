@@ -1,5 +1,5 @@
 #include "maze.h"
-#include <cmath>
+#include <iomanip>
 #include <cstdlib>
 using namespace std;
 
@@ -65,7 +65,7 @@ MazeCell* Maze::getLoc(uint16_t x, uint16_t y)    {
 void Maze::makeBoard()  {
     uint16_t x = 1;
     uint16_t y = 1;
-    numCells = pow(sideDimension, 2);
+    numCells = (sideDimension * sideDimension);
     
     for (int i = 0; i < numCells; i++)   {
         addCell(x, y, '\0');
@@ -112,12 +112,12 @@ void Maze::printBoard() {
     uint16_t x = 1, y = 1;
     uint16_t wallsPerRow = 0;
     MazeCell *cursor;
-    
-    for (int i = 0; i < pow(sideDimension, 2); i++)   {
+    cout << setw(4) << "+" << setfill('-') << setw(sideDimension) << "+" << endl;
+    for (int i = 0; i < numCells; i++)   {
         cursor = getLoc(x, y);
         
         if (x == 1) {
-            cout << y << " |";
+            cout << setfill(' ') << setw(2) << y << " |";
         }
         if (x < sideDimension) {
             cout << cursor->val;
@@ -136,6 +136,7 @@ void Maze::printBoard() {
             }
         }
     }
+    cout << setw(4) << "+" << setfill('-') << setw(sideDimension) << "+" << endl;
 }
 
 void Maze::setDaedalusCurrentLocation(uint16_t x, uint16_t y) {
