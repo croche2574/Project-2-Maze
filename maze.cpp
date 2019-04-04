@@ -99,7 +99,7 @@ void Maze::genMaze()    {
             //cout << "randY: " << randY << endl;
             cell = getLoc(randX, randY);
 
-            if (cell->val != '*')   {
+            if (cell->val == '\0')   {
                 cell->val = '*';
                 containsX = true;
             }
