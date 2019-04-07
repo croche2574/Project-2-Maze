@@ -1,6 +1,11 @@
 #include "maze.h"
+#include "moveStack.h"
 #include <iostream>
 using namespace std;
+
+void solve()    {
+    
+}
 
 
 int main()  {
