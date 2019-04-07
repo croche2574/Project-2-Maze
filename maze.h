@@ -7,7 +7,7 @@ class Maze {
         uint16_t sideDimension;
         uint16_t percentFreeCells;
         uint16_t numCells;
-        MazeCell *head, *tail;
+        MazeCell *head, *tail, *deadalus, *gate;
     public:
         Maze();
         Maze(uint16_t sideDimension, uint16_t percentFreeCells);
@@ -20,6 +20,8 @@ class Maze {
         void printBoard();
         void setDaedalusCurrentLocation(uint16_t x, uint16_t y);
         void setGateLocation(uint16_t x, uint16_t y);
+        MazeCell* getDLoc();
+        MazeCell* getGloc();
 };
 
 #endif

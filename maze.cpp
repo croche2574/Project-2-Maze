@@ -142,11 +142,21 @@ void Maze::printBoard() {
 void Maze::setDaedalusCurrentLocation(uint16_t x, uint16_t y) {
     MazeCell *cur = getLoc(x, y);
     cur->val = 'D';
+    deadalus = cur;
 }
 
 void Maze::setGateLocation(uint16_t x, uint16_t y)    {
     MazeCell *cur = getLoc(x, y);
     cur->val = '#';
+    gate = cur;
+}
+
+MazeCell* Maze::getDLoc()   {
+    return deadalus;
+}
+
+MazeCell* Maze::getGloc()   {
+    return gate;
 }
 
 Maze::Maze()    {}

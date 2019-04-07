@@ -3,10 +3,21 @@
 #include <iostream>
 using namespace std;
 
-void solve(uint16_t x, uint16_t y)    { //takes starting location as args
-
+void solveMaze(Maze& board)    { //takes starting location as args
+    MoveStack* moves = new MoveStack;
+    MazeCell* start = board.getDLoc;
+    MazeCell* end = board.getGloc;
+    
+    if (solver(moves, start, end) == false) {
+        cout <<  "Maze has no solution." << endl;
+    }
 }
 
+bool solver(MoveStack* moves, MazeCell* current, MazeCell* end)   {
+    
+    
+    return false;
+}
 
 int main()  {
     uint16_t sideDim, percentFree, dx, dy, gx, gy;
@@ -23,17 +34,17 @@ int main()  {
     cin >> dx;
     printf("Enter the Deadalus y-coord: ");
     cin >>  dy;
-    mazeBoard.setDaedalusCurrentLocation(x, y);
+    mazeBoard.setDaedalusCurrentLocation(dx, dy);
 
     printf("Enter the Exit x-coord: ");
     cin >> gx;
     printf("Enter the Exit y-coord: ");
     cin >>  gy;
-    mazeBoard.setGateLocation(x, y);
-
-    solve(dx, dy);
+    mazeBoard.setGateLocation(gx, gy);
 
     mazeBoard.genMaze();
     mazeBoard.printBoard();
+
+    solveMaze(mazeBoard);
     
 }

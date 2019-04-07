@@ -14,7 +14,7 @@ void MoveStack::push(MazeCell* data) {
 void MoveStack::pop()   {
     StackNode *temp;
 
-    if (isEmpty())  {
+    if (top == NULL)  {
         cout << "\nEmpty Stack" << endl;
     }
     else {
@@ -26,14 +26,11 @@ void MoveStack::pop()   {
 
 }
 
-int MoveStack::isEmpty()    {
-    return top == NULL;
-}
-
 MazeCell* MoveStack::peek() {
-    if (!isEmpty()) {
+    if (top != NULL) {
         return top->data;
     }
+    return 0;
 }
 
 void MoveStack::display()   {
