@@ -3,13 +3,13 @@
 #include <iostream>
 using namespace std;
 
-void solve()    {
-    
+void solve(uint16_t x, uint16_t y)    { //takes starting location as args
+
 }
 
 
 int main()  {
-    uint16_t sideDim, percentFree, x, y;
+    uint16_t sideDim, percentFree, dx, dy, gx, gy;
 
     printf("Enter the length of one side: ");
     cin >> sideDim;
@@ -20,16 +20,18 @@ int main()  {
     
     mazeBoard.makeBoard();
     printf("Enter the Deadalus x-coord: ");
-    cin >> x;
+    cin >> dx;
     printf("Enter the Deadalus y-coord: ");
-    cin >>  y;
+    cin >>  dy;
     mazeBoard.setDaedalusCurrentLocation(x, y);
 
     printf("Enter the Exit x-coord: ");
-    cin >> x;
+    cin >> gx;
     printf("Enter the Exit y-coord: ");
-    cin >>  y;
+    cin >>  gy;
     mazeBoard.setGateLocation(x, y);
+
+    solve(dx, dy);
 
     mazeBoard.genMaze();
     mazeBoard.printBoard();
