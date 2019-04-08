@@ -3,20 +3,20 @@
 #include <iostream>
 using namespace std;
 
-void solveMaze(Maze& board)    { //takes starting location as args
-    MoveStack* moves = new MoveStack;
-    MazeCell* start = board.getDLoc;
-    MazeCell* end = board.getGloc;
-    
-    if (solver(moves, start, end) == false) {
-        cout <<  "Maze has no solution." << endl;
-    }
-}
-
 bool solver(MoveStack* moves, MazeCell* current, MazeCell* end)   {
     
     
     return false;
+}
+
+void solveMaze(Maze* board)    { //takes starting location as args
+    MoveStack* moves = new MoveStack;
+    MazeCell* start = board->getDLoc();
+    MazeCell* end = board->getGloc();
+    
+    if (solver(moves, start, end) == false) {
+        cout <<  "Maze has no solution." << endl;
+    }
 }
 
 int main()  {
@@ -27,23 +27,23 @@ int main()  {
     printf("Enter the percentage of free cells: ");
     cin >>  percentFree;
     
-    Maze mazeBoard = Maze(sideDim, percentFree);
+    Maze* mazeBoard = new Maze(sideDim, percentFree);
     
-    mazeBoard.makeBoard();
+    mazeBoard->makeBoard();
     printf("Enter the Deadalus x-coord: ");
     cin >> dx;
     printf("Enter the Deadalus y-coord: ");
     cin >>  dy;
-    mazeBoard.setDaedalusCurrentLocation(dx, dy);
+    mazeBoard->setDaedalusCurrentLocation(dx, dy);
 
     printf("Enter the Exit x-coord: ");
     cin >> gx;
     printf("Enter the Exit y-coord: ");
     cin >>  gy;
-    mazeBoard.setGateLocation(gx, gy);
+    mazeBoard->setGateLocation(gx, gy);
 
-    mazeBoard.genMaze();
-    mazeBoard.printBoard();
+    mazeBoard->genMaze();
+    mazeBoard->printBoard();
 
     solveMaze(mazeBoard);
     
