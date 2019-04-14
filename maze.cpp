@@ -4,19 +4,12 @@
 using namespace std;
 
 void Maze::addCell(uint16_t xLoc, uint16_t yLoc, char v)    {
-    MazeCell *temp = new MazeCell;
+    MazeCell *temp = new MazeCell(xLoc, yLoc, v);
     MazeCell *cur = head;
-    temp->val = v;
-    temp->x = xLoc;
-    temp->y = yLoc;
-    temp->up = NULL;
-    temp->down = NULL;
-    temp->left = NULL;
-    temp->right = NULL;
 
     if (head==NULL) { //No cells
-        temp->x = 1;
-        temp->y = 1;
+        temp->setX(1);
+        temp->setY(1);
         head = temp;
         tail = temp;
         temp = NULL;
@@ -24,23 +17,23 @@ void Maze::addCell(uint16_t xLoc, uint16_t yLoc, char v)    {
     else //add cell
     {
         
-        if (tail->x == sideDimension)   {
-            while (cur->up != NULL)    {
-                cur = cur->up;
+        if (tail->getX() == sideDimension)   {
+            while (cur->getTop() != NULL)    {
+                cur = cur->getTop();
             }
-            cur->up = temp;
-            temp->down = cur;
+            cur->setTop(temp);
+            temp->setBottom(cur);
             tail = temp;
             temp = NULL;
         }
         else
         {
-            temp->left = tail;
-            tail->right =  temp;
-            if (tail->y !=  1)  {                
-                cur = getLoc(temp->x, (temp->y - 1));
-                temp->down = cur;
-                cur = temp;                
+            temp->setLeft(tail);
+            tail->setRight(temp);
+            if (tail->getY() !=  1)  {                
+                cur = getLoc(temp->getX(), (temp->getY() - 1));
+                temp->setBottom(cur);
+                cur = temp;
             }
             tail = temp;
             temp = NULL;
@@ -52,11 +45,11 @@ MazeCell* Maze::getLoc(uint16_t x, uint16_t y)    {
     MazeCell *cur = head;
     
     for (int i = 1; i < y; i++) {
-        cur = cur->up;
+        cur = cur->getTop();
         
     }
     for (int i = 1; i < x; i++) {
-        cur = cur->right;
+        cur = cur->getRight();
     }
 
     return cur;
@@ -99,8 +92,8 @@ void Maze::genMaze()    {
             //cout << "randY: " << randY << endl;
             cell = getLoc(randX, randY);
 
-            if (cell->val == '\0')   {
-                cell->val = '*';
+            if (cell->getValue() == 0)   {
+                cell->setValue(1);
                 containsX = true;
             }
         } 
@@ -120,10 +113,20 @@ void Maze::printBoard() {
             cout << setfill(' ') << setw(2) << y << " |";
         }
         if (x < sideDimension) {
-            cout << cursor->val;
+            
             x++;
-            if (cursor->val == '*') {
+            if (cursor->getValue() == 1) {
+                cout << "*";
                 wallsPerRow++;
+            }
+            else if (cursor->getValue() == 3)   {
+                cout << "D";
+            }
+            else if (cursor->getValue() == 4)   {
+                cout << "#";
+            }
+            else   {
+                cout << " ";
             }
         }
         else{
@@ -141,13 +144,14 @@ void Maze::printBoard() {
 
 void Maze::setDaedalusCurrentLocation(uint16_t x, uint16_t y) {
     MazeCell *cur = getLoc(x, y);
-    cur->val = 'D';
+    cur->setValue(3);
+    cout << "Setting deadalus " << cur << " d up " << cur->getTop() << endl;
     deadalus = cur;
 }
 
 void Maze::setGateLocation(uint16_t x, uint16_t y)    {
     MazeCell *cur = getLoc(x, y);
-    cur->val = '#';
+    cur->setValue(4);
     gate = cur;
 }
 
