@@ -100,14 +100,18 @@ bool solver(MoveStack* moves, MazeCell* current, MazeCell* end, Maze* board)   {
                     return true;
                 }
                 else    {
-                    top->setValue(0);
+                    if (top->getValue() == 3)   {
+                        top->setValue(0);
+                    }
                     moves->pop();
                     cout << "Backtrack" <<  endl;
                     board->printBoard();
                     break;
                 }
             default:
-                top->setValue(0);
+                if (top->getValue() == 3)   {
+                    top->setValue(0);
+                }
                 moves->pop();
                 cout << "Backtrack" <<  endl;
                 board->printBoard();

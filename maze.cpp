@@ -105,8 +105,9 @@ void Maze::makeBoard()  {
 }
 
 void Maze::genMaze()    {
-    uint16_t numWalls = (numCells * percentFreeCells) / 100;
+    uint16_t numWalls = (numCells * (100 - percentFreeCells)) / 100;
     uint16_t randX, randY;
+    srand(time(NULL));
     MazeCell* cell;
     bool containsX = false;
    
