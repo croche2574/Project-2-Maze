@@ -4,93 +4,147 @@
 using namespace std;
 
 bool solver(MoveStack* moves, MazeCell* current, MazeCell* end, Maze* board)   {
-    MazeCell* temp;
-
-    cout << "Current " << current->getValue() << endl;
-    temp = current->getTop();
-    cout << "value" << temp << "space"  << endl;
-    
     if (current == end) {
         return true;
+        cout << "found";
+    }
+    else if ((current == NULL) || (current->getValue() == 1)  || (current->getSidesChecked() == 4))  {
+        return false;
     }
     
     moves->push(current);
-    /**
-    while(current->checked != 4)    {
-        cout << "current " << current->checked << endl;
+    cout << "Cell Value: " << moves->peek()->getValue() << endl;
+    cout << "sides3 : " << moves->peek()->getSidesChecked() << endl;
+    while(moves->peek()->getSidesChecked() <= 4)    {
+        MazeCell* top = moves->peek(); //creates reference to top of move stack
         
-        switch (current->checked)
+        uint16_t s = top->getSidesChecked();
+        cout << "sides: " << s << endl;
+        if (top->getValue() != 3)   {
+            top->setValue(5);
+            board->printBoard();
+        }
+
+        
+        switch (s)
         {
             
-            case 0:
-                
-                if ((current->up->val != '*') && (current->up->checked != 4))    {
+            case 0:               
+                if ((top->getTop() != NULL) && (top->getTop()->getValue() != 5))   {
                     cout << "case 0" << endl;
-                    current->checked++;
+                    cout << "Current top: " << top->getTop()->getValue() << endl;
                     
-                    if (solver(moves, current->up, end, board))    {
-                        current->val = 1;
-                        
+                    if (solver(moves, top->getTop(), end, board))   {
                         return true;
                     }
                     else    {
-                        moves->peek()->val = '\0';
-                        moves->pop();
-                        break;
+                        s++;
+                        top->setSidesChecked(s);
                     }
+                    
                 }
-                
+                else   {
+                    s++;
+                    top->setSidesChecked(s);
+                    break;
+                }
+                break;
             case 1:
-                if (current->left->val != '*' && current->left->checked != 4)    {
-                    current->checked++;
-                    if (solver(moves, current->left, end, board))    {
+                cout  << "case 1" <<  endl;
+                if ((top->getLeft() != NULL) && (top->getLeft()->getValue() != 5))    {
+                    cout << "case 1" << endl;
+                    cout << "Current left val: " << top->getLeft()->getValue() << endl;
+                    cout << "left address " << top->getLeft() << endl;
+                    cout << "side count 1: " << top->getSidesChecked();
+                    if (solver(moves, top->getLeft(), end, board))   {
                         return true;
                     }
                     else    {
-                        moves->peek()->val = '\0';
-                        moves->pop();
-                        break;
+                        s++;
+                        top->setSidesChecked(s);
                     }
+                    
                 }
+                else   {
+                    s++;
+                    top->setSidesChecked(s);
+                    cout << "sides1: " << top->getSidesChecked() << endl;
+                    break;
+                }
+                break;
             case 2:
-                if (current->down->val != '*' && current->down->checked != 4)    {
-                    current->checked++;
-                    if (solver(moves, current->down, end, board))    {
+
+                if ((top->getBottom() != NULL) && (top->getBottom()->getValue() != 5))    {
+                    cout << "case 2" << endl;
+                    cout << "Current bottom: " << top->getBottom()->getValue() << endl;
+                    
+                    if (solver(moves, top->getBottom(), end, board))   {
                         return true;
                     }
                     else    {
-                        moves->peek()->val = '\0';
-                        moves->pop();
-                        break;
+                        s++;
+                        top->setSidesChecked(s);
                     }
+                    
                 }
+                else   {
+                    s++;
+                    top->setSidesChecked(s);
+                    break;
+                }
+                break;
             case 3:
-                if (current->right->val != '*' && current->right->checked != 4)    {
-                    current->checked++;
-                    if (solver(moves, current->right, end, board))    {
+                cout << "Right Val: " << top->getRight()->getValue() << endl;                
+                if ((top->getRight() != NULL) && (top->getRight()->getValue() != 5))   {
+                    cout << "case 3" << endl;
+                    cout << "Current right: " << top->getRight()->getValue() << endl;
+                    
+                    if (solver(moves, top->getRight(), end, board))   {
                         return true;
                     }
                     else    {
-                        moves->peek()->val = '\0';
-                        moves->pop();
-                        break;
+                        s++;
+                        top->setSidesChecked(s);
                     }
+                    
+                }
+                else   {
+                    s++;
+                    top->setSidesChecked(s);
+                    break;
+                }
+                break;
+            case 4:
+                if (top->getValue() == 3)    { //if all 4 directions at start have been checked
+                    return false;
+                }
+                else if (top->getValue() == 4)  {
+                    return true;
+                }
+                else    {
+                    top->setValue(0);
+                    moves->pop();
+                    cout << "Popped" <<  endl;
+                    board->printBoard();
+                    break;
                 }
             default:
+                top->setValue(0);
+                moves->pop();
+                cout << "Popped" <<  endl;
+                board->printBoard();
                 break;
         }
 
     }
-    **/
+    cout << "Switch over" <<endl;
     return false;
 }
 
 void solveMaze(Maze* board)    { //takes starting location as args
     MoveStack* moves = new MoveStack;
-    MazeCell* start = board->getDLoc();
-    MazeCell* end = board->getGloc();
-
-    cout << "start up val " << start->getTop() << endl;
+    MazeCell* start = board->getLoc(board->getDX(), board->getDY());
+    MazeCell* end = board->getLoc(board->getGX(), board->getGY());
     
     if (solver(moves, start, end, board) == false) {
         cout <<  "Maze has no solution." << endl;

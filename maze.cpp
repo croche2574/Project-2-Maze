@@ -3,6 +3,48 @@
 #include <cstdlib>
 using namespace std;
 
+uint16_t Maze::getDX() const {
+    return dX;
+}
+void Maze::setDX(uint16_t x) {
+    Maze::dX = x;
+}
+
+uint16_t Maze::getDY() const {
+    return dY;
+}
+void Maze::setDY(uint16_t y) {
+    Maze::dY = y;
+}
+
+uint16_t Maze::getGX() const {
+    return gX;
+}
+void Maze::setGX(uint16_t x) {
+    Maze::gX = x;
+}
+
+uint16_t Maze::getGY() const {
+    return gY;
+}
+void Maze::setGY(uint16_t y) {
+    Maze::gY = y;
+}
+
+MazeCell* Maze::getLoc(uint16_t x, uint16_t y) const   {
+    MazeCell *cur = head;
+    
+    for (int i = 1; i < y; i++) {
+        cur = cur->getTop();
+        
+    }
+    for (int i = 1; i < x; i++) {
+        cur = cur->getRight();
+    }
+
+    return cur;
+}
+
 void Maze::addCell(uint16_t xLoc, uint16_t yLoc, char v)    {
     MazeCell *temp = new MazeCell(xLoc, yLoc, v);
     MazeCell *cur = head;
@@ -32,6 +74,7 @@ void Maze::addCell(uint16_t xLoc, uint16_t yLoc, char v)    {
             tail->setRight(temp);
             if (tail->getY() !=  1)  {                
                 cur = getLoc(temp->getX(), (temp->getY() - 1));
+                cur->setTop(temp);
                 temp->setBottom(cur);
                 cur = temp;
             }
@@ -39,20 +82,6 @@ void Maze::addCell(uint16_t xLoc, uint16_t yLoc, char v)    {
             temp = NULL;
         }
     }
-}
-
-MazeCell* Maze::getLoc(uint16_t x, uint16_t y)    {
-    MazeCell *cur = head;
-    
-    for (int i = 1; i < y; i++) {
-        cur = cur->getTop();
-        
-    }
-    for (int i = 1; i < x; i++) {
-        cur = cur->getRight();
-    }
-
-    return cur;
 }
 
 void Maze::makeBoard()  {
@@ -125,6 +154,9 @@ void Maze::printBoard() {
             else if (cursor->getValue() == 4)   {
                 cout << "#";
             }
+            else if (cursor->getValue() == 5)   {
+                cout << "@";
+            }
             else   {
                 cout << " ";
             }
@@ -143,31 +175,22 @@ void Maze::printBoard() {
 }
 
 void Maze::setDaedalusCurrentLocation(uint16_t x, uint16_t y) {
+    setDX(x);
+    setDY(y);
+    
     MazeCell *cur = getLoc(x, y);
     cur->setValue(3);
-    cout << "Setting deadalus " << cur << " d up " << cur->getTop() << endl;
-    deadalus = cur;
 }
 
 void Maze::setGateLocation(uint16_t x, uint16_t y)    {
+    setGX(x);
+    setGY(y);
+
     MazeCell *cur = getLoc(x, y);
     cur->setValue(4);
-    gate = cur;
 }
 
-MazeCell* Maze::getDLoc()   {
-    return deadalus;
-}
-
-MazeCell* Maze::getGloc()   {
-    return gate;
-}
-
-Maze::Maze()    {}
-
-Maze::Maze(uint16_t side, uint16_t percentFree)   {
-    sideDimension = side;
-    percentFreeCells =  percentFree;
+Maze::Maze(uint16_t side, uint16_t percentFree) : sideDimension(side), percentFreeCells(percentFree)  {
     head = NULL;
     tail = NULL;
 }

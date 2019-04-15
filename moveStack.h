@@ -1,24 +1,19 @@
 #ifndef MOVESTACK
 #define MOVESTACK
 #include "maze.h"
-
-class StackNode {
-    public:
-        MazeCell *data;
-        StackNode *link;
+struct MoveNode {
+    MazeCell *data;
+    struct MoveNode *link;
 };
 
-class MoveStack {
+class  MoveStack {
     private:
-        StackNode *top;
+        struct MoveNode *top;
     public:
-        void push(MazeCell* data);
-        void pop();
-        int isEmpty();
+        void push(MazeCell *data);
         MazeCell* peek();
+        void pop();
         void display();
-
-        MoveStack ();
 };
 
 #endif

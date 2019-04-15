@@ -29,6 +29,13 @@ void MazeCell::setY(uint16_t y) {
     MazeCell::y = y;
 }
 
+uint16_t MazeCell::getSidesChecked() const {
+    return sidesChecked;
+}
+void MazeCell::setSidesChecked(uint16_t s) {
+    MazeCell::sidesChecked = s;
+}
+
 MazeCell *MazeCell::getTop() const {
     return top;
 }

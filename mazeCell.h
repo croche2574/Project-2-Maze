@@ -8,6 +8,7 @@ class MazeCell  {
         uint16_t value;
         uint16_t x;
         uint16_t y;
+        uint16_t sidesChecked;
         MazeCell *top;
         MazeCell *right;
         MazeCell *bottom;
@@ -23,6 +24,9 @@ class MazeCell  {
 
         uint16_t getY() const;
         void setY(uint16_t y);
+
+        uint16_t getSidesChecked() const;
+        void setSidesChecked(uint16_t s);
         
         MazeCell *getTop() const;
         void setTop(MazeCell *top);
