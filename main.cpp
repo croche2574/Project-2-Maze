@@ -159,5 +159,11 @@ int main()  {
 
     solveMaze(mazeBoard);
     
+    uint16_t c;
+    puts ("Enter \"e\" and press return to exit:");
+    do {
+        c=getchar();
+    } while (c != 'e');
+    return 0;
     
 }
