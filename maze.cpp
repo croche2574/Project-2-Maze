@@ -175,12 +175,12 @@ void Maze::printBoard() { //prints the maze board
             y++;
             cout << "| " << wallsPerRow << endl;
             wallsPerRow = 0;
-            if (y > sideDimension) {
+            if (y >= sideDimension) {
                 break;
             }
         }
     }
-    cout << setw(4) << "+" << setfill('-') << setw(sideDimension) << "+" << endl;
+    cout << setw(4) << "+" << setfill('-') << setw(sideDimension + 1) << "+" << endl;
 }
 
 void Maze::setDaedalusCurrentLocation(uint16_t x, uint16_t y) {
