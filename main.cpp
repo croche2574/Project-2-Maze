@@ -17,8 +17,7 @@ bool solver(MoveStack* moves, MazeCell* current, MazeCell* end, Maze* board)   {
         MazeCell* top = moves->peek(); //creates reference to top of move stack
         
         uint16_t s = top->getSidesChecked();
-        cout << "sides: " << s << endl;
-        if ((top->getValue() != 3) || (top->getValue() != 3))  {
+        if ((top->getValue() != 3) && (top->getValue() != 5))  {
             top->setValue(5);
             board->printBoard();
         }
