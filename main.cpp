@@ -20,7 +20,7 @@ bool solver(MoveStack* moves, MazeCell* current, MazeCell* end, Maze* board)   {
         
         uint16_t s = top->getSidesChecked();
         cout << "sides: " << s << endl;
-        if (top->getValue() != 3)   {
+        if ((top->getValue() != 3) || (top->getValue() != 3))  {
             top->setValue(5);
             board->printBoard();
         }
@@ -114,10 +114,13 @@ bool solver(MoveStack* moves, MazeCell* current, MazeCell* end, Maze* board)   {
                 }
                 break;
             case 4:
+                /**
                 if (top->getValue() == 3)    { //if all 4 directions at start have been checked
+                    cout << "case 4" << endl;
                     return false;
                 }
-                else if (top->getValue() == 4)  {
+                **/
+                if (top->getValue() == 4)  {
                     return true;
                 }
                 else    {
