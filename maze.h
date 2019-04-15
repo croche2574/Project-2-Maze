@@ -1,8 +1,8 @@
 #ifndef MAZE
 #define MAZE
-#include  "mazeCell.h"
+#include "mazeCell.h"
 #include <iostream>
-class Maze {
+class Maze { //Class for the linked list
     private:
         uint16_t sideDimension;
         uint16_t percentFreeCells;
@@ -11,7 +11,7 @@ class Maze {
         uint16_t dY;
         uint16_t gX;
         uint16_t gY;
-        MazeCell *head, *tail;
+        MazeCell *head, *tail; //head and tail nodes of the list
     public:
         Maze();
         Maze(uint16_t sideDimension, uint16_t percentFreeCells);
@@ -30,11 +30,14 @@ class Maze {
         uint16_t getGY() const;
         void setGY(uint16_t y);
 
-        MazeCell* changeLoc(MazeCell* cur);
-        MazeCell* getLoc(uint16_t x, uint16_t y) const;
-        void makeBoard();
-        void genMaze();
-        void printBoard();
+        uint16_t getNumCells() const;
+        void setNumCells(uint16_t n);
+
+        MazeCell* changeLoc(MazeCell* cur); //return a different cell
+        MazeCell* getLoc(uint16_t x, uint16_t y) const; //get a cell based on x and y
+        void makeBoard(); //Create the list
+        void genMaze(); //Fill the list with obstacles
+        void printBoard(); //Print the board
         void setDaedalusCurrentLocation(uint16_t x, uint16_t y);
         void setGateLocation(uint16_t x, uint16_t y);
 };

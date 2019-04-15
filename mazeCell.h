@@ -1,14 +1,14 @@
 #ifndef MAZECELL
 #define MAZECELL
 #include <iostream>
+//Node of Maze Linked list
 
-
-class MazeCell  {
+class MazeCell  { //Maze cell object
     private:
-        uint16_t value;
-        uint16_t x;
-        uint16_t y;
-        uint16_t sidesChecked;
+        uint16_t value; //number stored
+        uint16_t x; //x location
+        uint16_t y; //y location
+        uint16_t sidesChecked; //How many sides of the cell have been checked for solution
         MazeCell *top;
         MazeCell *right;
         MazeCell *bottom;

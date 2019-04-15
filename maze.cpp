@@ -1,6 +1,7 @@
 #include "maze.h"
 #include <iomanip>
 #include <cstdlib>
+#include <time.h>
 using namespace std;
 
 uint16_t Maze::getDX() const {
@@ -31,25 +32,32 @@ void Maze::setGY(uint16_t y) {
     Maze::gY = y;
 }
 
+uint16_t Maze::getNumCells() const {
+    return numCells;
+}
+void Maze::setNumCells(uint16_t n) {
+    Maze::numCells = n;
+}
+
 MazeCell* Maze::getLoc(uint16_t x, uint16_t y) const   {
     MazeCell *cur = head;
     
-    for (int i = 1; i < y; i++) {
+    for (int i = 1; i < y; i++) { //moves y rows up
         cur = cur->getTop();
         
     }
-    for (int i = 1; i < x; i++) {
+    for (int i = 1; i < x; i++) { //moves x columns over
         cur = cur->getRight();
     }
 
     return cur;
 }
 
-void Maze::addCell(uint16_t xLoc, uint16_t yLoc, char v)    {
+void Maze::addCell(uint16_t xLoc, uint16_t yLoc, char v)    { //Adds cells to the board from the tail.
     MazeCell *temp = new MazeCell(xLoc, yLoc, v);
     MazeCell *cur = head;
 
-    if (head==NULL) { //No cells
+    if (head==NULL) { //No cells in maze
         temp->setX(1);
         temp->setY(1);
         head = temp;
@@ -84,12 +92,12 @@ void Maze::addCell(uint16_t xLoc, uint16_t yLoc, char v)    {
     }
 }
 
-void Maze::makeBoard()  {
+void Maze::makeBoard()  { //calls the function to add cells
     uint16_t x = 1;
     uint16_t y = 1;
-    numCells = (sideDimension * sideDimension);
+    setNumCells(sideDimension * sideDimension);
     
-    for (int i = 0; i < numCells; i++)   {
+    for (int i = 0; i < getNumCells(); i++)   {
         addCell(x, y, '\0');
         if (x < sideDimension) {
             x++;
@@ -104,11 +112,11 @@ void Maze::makeBoard()  {
     }
 }
 
-void Maze::genMaze()    {
-    uint16_t numWalls = (numCells * (100 - percentFreeCells)) / 100;
+void Maze::genMaze()    { //Fills in the maze
+    uint16_t numWalls = (getNumCells() * (100 - percentFreeCells)) / 100; //Calculate how many walls there should be
     uint16_t randX, randY;
-    srand(time(NULL));
-    MazeCell* cell;
+    srand(time(NULL)); //generates a random seed
+    MazeCell* cell; // creates empty reference to a cell
     bool containsX = false;
    
 
@@ -120,29 +128,29 @@ void Maze::genMaze()    {
             randY = rand() % sideDimension + 1;
             //cout << "randX: " << randX << endl;
             //cout << "randY: " << randY << endl;
-            cell = getLoc(randX, randY);
+            cell = getLoc(randX, randY); //gets the cell at the random location
 
-            if (cell->getValue() == 0)   {
+            if (cell->getValue() == 0)   { //checks if the cell is empty
                 cell->setValue(1);
                 containsX = true;
             }
         } 
-        while(!containsX);
+        while(!containsX); //Loops and picks another spot if the chosen spot is occupied
     }
 }
 
-void Maze::printBoard() {
+void Maze::printBoard() { //prints the maze board
     uint16_t x = 1, y = 1;
-    uint16_t wallsPerRow = 0;
-    MazeCell *cursor;
-    cout << setw(4) << "+" << setfill('-') << setw(sideDimension) << "+" << endl;
-    for (int i = 0; i < numCells; i++)   {
+    uint16_t wallsPerRow = 0; //stores how many walls are in each row
+    MazeCell *cursor; //cell reference to move through board
+    cout << setfill(' ') << setw(4) << "+" << setfill('-') << setw(sideDimension + 1) << "+" << endl;
+    for (int i = 0; i < getNumCells(); i++)   {
         cursor = getLoc(x, y);
         
         if (x == 1) {
             cout << setfill(' ') << setw(2) << y << " |";
         }
-        if (x < sideDimension) {
+        if (x <= sideDimension) { //translates numbers in cells to symbols
             
             x++;
             if (cursor->getValue() == 1) {
@@ -191,7 +199,7 @@ void Maze::setGateLocation(uint16_t x, uint16_t y)    {
     cur->setValue(4);
 }
 
-Maze::Maze(uint16_t side, uint16_t percentFree) : sideDimension(side), percentFreeCells(percentFree)  {
+Maze::Maze(uint16_t side, uint16_t percentFree) : sideDimension(side), percentFreeCells(percentFree)  { 
     head = NULL;
     tail = NULL;
 }
