@@ -93,8 +93,7 @@ bool solver(MoveStack* moves, MazeCell* current, MazeCell* end, Maze* board)   {
                     break;
                 }
                 break;
-            case 3:
-                cout << "Right Val: " << top->getRight()->getValue() << endl;                
+            case 3:              
                 if ((top->getRight() != NULL) && (top->getRight()->getValue() != 5))   {
                     cout << "case 3" << endl;
                     cout << "Current right: " << top->getRight()->getValue() << endl;

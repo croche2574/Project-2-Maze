@@ -6,6 +6,7 @@ MazeCell::MazeCell(uint16_t xLoc, uint16_t yLoc, uint16_t value) : value(value),
     right=NULL;
     bottom=NULL;
     left=NULL;
+    sidesChecked = 0;
 }
     
 uint16_t MazeCell::getValue() const {
